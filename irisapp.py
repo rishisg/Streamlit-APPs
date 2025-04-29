@@ -6,7 +6,7 @@ from sklearn.datasets import load_iris
 
 # Streamlit app layout and title
 st.title("Iris Flower Prediction App")
-st.write("This app uses Random Forest and XGBoost models to predict the species of Iris flowers.")
+st.write("This app uses a Random Forest model to predict the species of Iris flowers.")
 
 # Load the Iris dataset
 @st.cache_data
@@ -14,13 +14,13 @@ def load_iris_data():
     iris = load_iris()
     return iris.data, iris.target, iris.feature_names, iris.target_names
 
-# Load the models
+# Load the Random Forest model
 @st.cache_resource
-def load_model(model_path):
+def load_rf_model(model_path):
     with open(model_path, 'rb') as f:
         return pickle.load(f)
 
-# Loading data and models only when needed
+# Loading data only when needed
 X, y, feature_names, target_names = load_iris_data()
 
 # Preprocessing - Create scaler for feature scaling
@@ -46,12 +46,12 @@ def handle_input_rf():
     st.session_state.petal_length = st.number_input('Petal Length (cm)', min_value=0.0, step=0.1, value=st.session_state.petal_length)
     st.session_state.petal_width = st.number_input('Petal Width (cm)', min_value=0.0, step=0.1, value=st.session_state.petal_width)
 
-    # Check if inputs are non-zero
+    # Ensure the input fields are filled with non-zero values
     if st.session_state.sepal_length == 0.0 or st.session_state.sepal_width == 0.0 or st.session_state.petal_length == 0.0 or st.session_state.petal_width == 0.0:
         st.error("Please provide non-zero values for all inputs!")
     else:
         # Load Random Forest Model (cache it)
-        rf_model = load_model('random_forest_model_iris.pkl')
+        rf_model = load_rf_model('random_forest_model_iris.pkl')
 
         # Prepare the input data
         input_data = np.array([[st.session_state.sepal_length, st.session_state.sepal_width, st.session_state.petal_length, st.session_state.petal_width]])
@@ -64,40 +64,12 @@ def handle_input_rf():
         st.session_state.prediction = target_names[prediction][0]
         st.write(f"Prediction with Random Forest: {st.session_state.prediction}")
 
-# Function to handle XGBoost input and prediction
-def handle_input_xgb():
-    # User input fields
-    st.session_state.sepal_length = st.number_input('Sepal Length (cm)', min_value=0.0, step=0.1, value=st.session_state.sepal_length)
-    st.session_state.sepal_width = st.number_input('Sepal Width (cm)', min_value=0.0, step=0.1, value=st.session_state.sepal_width)
-    st.session_state.petal_length = st.number_input('Petal Length (cm)', min_value=0.0, step=0.1, value=st.session_state.petal_length)
-    st.session_state.petal_width = st.number_input('Petal Width (cm)', min_value=0.0, step=0.1, value=st.session_state.petal_width)
-
-    # Check if inputs are non-zero
-    if st.session_state.sepal_length == 0.0 or st.session_state.sepal_width == 0.0 or st.session_state.petal_length == 0.0 or st.session_state.petal_width == 0.0:
-        st.error("Please provide non-zero values for all inputs!")
-    else:
-        # Load XGBoost Model (cache it)
-        xgb_model = load_model('xgboost_model_iris.pkl')
-
-        # Prepare the input data
-        input_data = np.array([[st.session_state.sepal_length, st.session_state.sepal_width, st.session_state.petal_length, st.session_state.petal_width]])
-
-        # Scale input data using the same scaler used in training
-        input_data_scaled = scaler.fit_transform(input_data)
-
-        # Make prediction using XGBoost model
-        prediction = xgb_model.predict(input_data_scaled)
-        st.session_state.prediction = target_names[prediction][0]
-        st.write(f"Prediction with XGBoost: {st.session_state.prediction}")
-
-# Display the buttons for model selection
+# Display the button for Random Forest prediction
 st.write("Please select a model for prediction:")
 
+# Predict with Random Forest when button is clicked
 if st.button('Predict with Random Forest'):
     handle_input_rf()
-
-if st.button('Predict with XGBoost'):
-    handle_input_xgb()
 
 # Display prediction after button click
 if st.session_state.prediction:
