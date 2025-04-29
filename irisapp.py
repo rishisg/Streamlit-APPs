@@ -37,15 +37,22 @@ if st.button('Predict with Random Forest'):
     petal_length = st.number_input('Petal Length (cm)', min_value=0.0, step=0.1)
     petal_width = st.number_input('Petal Width (cm)', min_value=0.0, step=0.1)
 
-    input_data = np.array([[sepal_length, sepal_width, petal_length, petal_width]])
+    # Check if all inputs are filled
+    if sepal_length == 0.0 or sepal_width == 0.0 or petal_length == 0.0 or petal_width == 0.0:
+        st.error("Please provide non-zero values for all inputs!")
+    else:
+        input_data = np.array([[sepal_length, sepal_width, petal_length, petal_width]])
 
-    # Scale input data using the same scaler used in training
-    input_data_scaled = scaler.fit_transform(input_data)
+        # Scale input data using the same scaler used in training
+        input_data_scaled = scaler.fit_transform(input_data)
 
-    # Make prediction using Random Forest model
-    prediction = rf_model.predict(input_data_scaled)
-    species = target_names[prediction][0]
-    st.write(f"Prediction: {species}")
+        # Make prediction using Random Forest model
+        try:
+            prediction = rf_model.predict(input_data_scaled)
+            species = target_names[prediction][0]
+            st.write(f"Prediction: {species}")
+        except Exception as e:
+            st.error(f"Error during prediction: {e}")
 
 # Button to trigger XGBoost prediction
 if st.button('Predict with XGBoost'):
@@ -58,12 +65,19 @@ if st.button('Predict with XGBoost'):
     petal_length = st.number_input('Petal Length (cm)', min_value=0.0, step=0.1)
     petal_width = st.number_input('Petal Width (cm)', min_value=0.0, step=0.1)
 
-    input_data = np.array([[sepal_length, sepal_width, petal_length, petal_width]])
+    # Check if all inputs are filled
+    if sepal_length == 0.0 or sepal_width == 0.0 or petal_length == 0.0 or petal_width == 0.0:
+        st.error("Please provide non-zero values for all inputs!")
+    else:
+        input_data = np.array([[sepal_length, sepal_width, petal_length, petal_width]])
 
-    # Scale input data using the same scaler used in training
-    input_data_scaled = scaler.fit_transform(input_data)
+        # Scale input data using the same scaler used in training
+        input_data_scaled = scaler.fit_transform(input_data)
 
-    # Make prediction using XGBoost model
-    prediction = xgb_model.predict(input_data_scaled)
-    species = target_names[prediction][0]
-    st.write(f"Prediction: {species}")
+        # Make prediction using XGBoost model
+        try:
+            prediction = xgb_model.predict(input_data_scaled)
+            species = target_names[prediction][0]
+            st.write(f"Prediction: {species}")
+        except Exception as e:
+            st.error(f"Error during prediction: {e}")
