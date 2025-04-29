@@ -35,8 +35,10 @@ if 'petal_length' not in st.session_state:
     st.session_state.petal_length = 0.0
 if 'petal_width' not in st.session_state:
     st.session_state.petal_width = 0.0
+if 'prediction' not in st.session_state:
+    st.session_state.prediction = None
 
-# Button to trigger Random Forest prediction
+# Function for Random Forest Prediction
 def handle_input_rf():
     # User input fields
     st.session_state.sepal_length = st.number_input('Sepal Length (cm)', min_value=0.0, step=0.1, value=st.session_state.sepal_length)
@@ -59,10 +61,10 @@ def handle_input_rf():
 
         # Make prediction using Random Forest model
         prediction = rf_model.predict(input_data_scaled)
-        species = target_names[prediction][0]
-        st.write(f"Prediction: {species}")
+        st.session_state.prediction = target_names[prediction][0]
+        st.write(f"Prediction with Random Forest: {st.session_state.prediction}")
 
-# Button to trigger XGBoost prediction
+# Function for XGBoost Prediction
 def handle_input_xgb():
     # User input fields
     st.session_state.sepal_length = st.number_input('Sepal Length (cm)', min_value=0.0, step=0.1, value=st.session_state.sepal_length)
@@ -85,15 +87,18 @@ def handle_input_xgb():
 
         # Make prediction using XGBoost model
         prediction = xgb_model.predict(input_data_scaled)
-        species = target_names[prediction][0]
-        st.write(f"Prediction: {species}")
+        st.session_state.prediction = target_names[prediction][0]
+        st.write(f"Prediction with XGBoost: {st.session_state.prediction}")
 
 # Display the buttons for model selection
 st.write("Please select a model for prediction:")
 
-# Ensure the input fields do not reset on button click
 if st.button('Predict with Random Forest'):
     handle_input_rf()
 
 if st.button('Predict with XGBoost'):
     handle_input_xgb()
+
+# Display prediction after button click
+if st.session_state.prediction:
+    st.write(f"Prediction: {st.session_state.prediction}")
