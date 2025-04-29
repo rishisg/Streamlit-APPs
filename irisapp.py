@@ -38,7 +38,7 @@ if 'petal_width' not in st.session_state:
 if 'prediction' not in st.session_state:
     st.session_state.prediction = None
 
-# Function for Random Forest Prediction
+# Function to handle Random Forest input and prediction
 def handle_input_rf():
     # User input fields
     st.session_state.sepal_length = st.number_input('Sepal Length (cm)', min_value=0.0, step=0.1, value=st.session_state.sepal_length)
@@ -46,7 +46,7 @@ def handle_input_rf():
     st.session_state.petal_length = st.number_input('Petal Length (cm)', min_value=0.0, step=0.1, value=st.session_state.petal_length)
     st.session_state.petal_width = st.number_input('Petal Width (cm)', min_value=0.0, step=0.1, value=st.session_state.petal_width)
 
-    # Ensure the input fields are filled with non-zero values
+    # Check if inputs are non-zero
     if st.session_state.sepal_length == 0.0 or st.session_state.sepal_width == 0.0 or st.session_state.petal_length == 0.0 or st.session_state.petal_width == 0.0:
         st.error("Please provide non-zero values for all inputs!")
     else:
@@ -64,7 +64,7 @@ def handle_input_rf():
         st.session_state.prediction = target_names[prediction][0]
         st.write(f"Prediction with Random Forest: {st.session_state.prediction}")
 
-# Function for XGBoost Prediction
+# Function to handle XGBoost input and prediction
 def handle_input_xgb():
     # User input fields
     st.session_state.sepal_length = st.number_input('Sepal Length (cm)', min_value=0.0, step=0.1, value=st.session_state.sepal_length)
@@ -72,7 +72,7 @@ def handle_input_xgb():
     st.session_state.petal_length = st.number_input('Petal Length (cm)', min_value=0.0, step=0.1, value=st.session_state.petal_length)
     st.session_state.petal_width = st.number_input('Petal Width (cm)', min_value=0.0, step=0.1, value=st.session_state.petal_width)
 
-    # Ensure the input fields are filled with non-zero values
+    # Check if inputs are non-zero
     if st.session_state.sepal_length == 0.0 or st.session_state.sepal_width == 0.0 or st.session_state.petal_length == 0.0 or st.session_state.petal_width == 0.0:
         st.error("Please provide non-zero values for all inputs!")
     else:
