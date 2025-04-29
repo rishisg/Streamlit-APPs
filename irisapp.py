@@ -38,17 +38,24 @@ if st.session_state.sepal_length == 0.0 or st.session_state.sepal_width == 0.0 o
 else:
     # Show the prediction button only if inputs are valid (non-zero)
     if st.button('Predict with Random Forest'):
-        # Load the Random Forest model (this should be cached)
-        rf_model = load_rf_model()
+        try:
+            # Load the Random Forest model (this should be cached)
+            rf_model = load_rf_model()
 
-        # Prepare the input data
-        input_data = np.array([[st.session_state.sepal_length, st.session_state.sepal_width, st.session_state.petal_length, st.session_state.petal_width]])
+            # Prepare the input data
+            input_data = np.array([[st.session_state.sepal_length, st.session_state.sepal_width, st.session_state.petal_length, st.session_state.petal_width]])
 
-        # Scale the input data using the same scaler used in training
-        input_data_scaled = scaler.fit_transform(input_data)
+            # Check for any missing values in the input data
+            if np.any(np.isnan(input_data)):
+                st.error("Input data contains missing values!")
+            else:
+                # Scale the input data using the same scaler used in training
+                input_data_scaled = scaler.fit_transform(input_data)
 
-        # Make prediction using Random Forest model
-        prediction = rf_model.predict(input_data_scaled)
+                # Make prediction using Random Forest model
+                prediction = rf_model.predict(input_data_scaled)
 
-        # Display the prediction
-        st.write(f"Prediction with Random Forest: {prediction[0]}")
+                # Display the prediction
+                st.write(f"Prediction with Random Forest: {prediction[0]}")
+        except Exception as e:
+            st.error(f"An error occurred: {e}")
