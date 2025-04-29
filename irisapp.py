@@ -9,13 +9,13 @@ st.title("Iris Flower Prediction App")
 st.write("This app uses Random Forest and XGBoost models to predict the species of Iris flowers.")
 
 # Load the Iris dataset
-@st.cache
+@st.cache_data
 def load_iris_data():
     iris = load_iris()
     return iris.data, iris.target, iris.feature_names, iris.target_names
 
 # Load the models
-@st.cache(allow_output_mutation=True)
+@st.cache_resource
 def load_model(model_path):
     with open(model_path, 'rb') as f:
         return pickle.load(f)
