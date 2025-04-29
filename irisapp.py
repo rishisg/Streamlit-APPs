@@ -91,6 +91,7 @@ def handle_input_xgb():
 # Display the buttons for model selection
 st.write("Please select a model for prediction:")
 
+# Ensure the input fields do not reset on button click
 if st.button('Predict with Random Forest'):
     handle_input_rf()
 
