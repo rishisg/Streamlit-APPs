@@ -10,7 +10,7 @@ st.write("This app uses a Random Forest model to predict the species of Iris flo
 # Load the Random Forest model (Ensure it's saved and available in the same directory as this app)
 @st.cache_resource
 def load_rf_model():
-    with open('random_forest_model_iris.pkl', 'rb') as f:
+    with open('random_forest_model_iris1.pkl', 'rb') as f:
         return pickle.load(f)
 
 # Preprocessing - Create scaler for feature scaling
