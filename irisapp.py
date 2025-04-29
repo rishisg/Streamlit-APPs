@@ -26,6 +26,16 @@ X, y, feature_names, target_names = load_iris_data()
 # Preprocessing - Create scaler for feature scaling
 scaler = StandardScaler()
 
+# Initialize session state variables if not already initialized
+if 'sepal_length' not in st.session_state:
+    st.session_state.sepal_length = 0.0
+if 'sepal_width' not in st.session_state:
+    st.session_state.sepal_width = 0.0
+if 'petal_length' not in st.session_state:
+    st.session_state.petal_length = 0.0
+if 'petal_width' not in st.session_state:
+    st.session_state.petal_width = 0.0
+
 # Button to trigger Random Forest prediction
 def handle_input_rf():
     # User input fields
