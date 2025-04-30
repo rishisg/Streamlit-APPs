@@ -1,18 +1,19 @@
 import pickle
 import numpy as np
+import os
 import streamlit as st
 from sklearn.preprocessing import StandardScaler
 
 # Load the Decision Tree model
 @st.cache_resource
 def load_dt_model():
-    model_path = 'decision_tree_model_iris6.pkl'  # Ensure the correct path
-    
-    # Check if the model file exists
+    model_path = 'decision_tree_model_iris6.pkl'  # Ensure the correct model path
+
+    # Check if the model file exists in the correct directory
     if not os.path.exists(model_path):
         st.error(f"Model file '{model_path}' not found. Please upload the model file.")
         return None
-    
+
     with open(model_path, 'rb') as f:
         return pickle.load(f)
 
