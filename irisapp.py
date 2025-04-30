@@ -1,5 +1,6 @@
 import pickle
 import numpy as np
+import os  # Importing the os module to check if the file exists
 import streamlit as st
 
 # Load the Decision Tree model
