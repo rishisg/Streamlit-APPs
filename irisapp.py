@@ -7,7 +7,7 @@ from sklearn.preprocessing import StandardScaler
 # Load the Decision Tree model
 @st.cache_resource
 def load_dt_model():
-    model_path = 'decision_tree_model_iris5.pkl'  # Ensure the path is correct
+    model_path = 'decision_tree_model_iris6.pkl'  # Ensure the path is correct
     
     # Check if the model file exists
     if not os.path.exists(model_path):
