@@ -1,6 +1,6 @@
 import pickle
 import numpy as np
-import os  # Importing the os module to check if the file exists
+import os
 import streamlit as st
 
 # Load the Decision Tree model
@@ -18,6 +18,13 @@ def load_dt_model():
 
 # Define a dictionary to map integer labels to Iris species names
 species_map = {0: 'Setosa', 1: 'Versicolor', 2: 'Virginica'}
+
+# Adding descriptions for Iris species
+species_descriptions = {
+    'Setosa': 'Iris Setosa is characterized by its small flowers with wide petals. It is one of the earliest blooming Iris species.',
+    'Versicolor': 'Iris Versicolor is a medium-sized species with slightly larger flowers. Its petals are more narrow than Setosa.',
+    'Virginica': 'Iris Virginica is a large species with elegant flowers that have broad petals, often found in wetlands.'
+}
 
 # Streamlit inputs for flower features
 st.title("Iris Flower Prediction App")
@@ -44,4 +51,8 @@ if st.button('Predict with Decision Tree'):
             prediction = model.predict(input_data)
 
             # Display the result with the species name
-            st.write(f"The predicted Iris flower species is: {species_map[prediction[0]]}")
+            predicted_species = species_map[prediction[0]]
+            st.write(f"The predicted Iris flower species is: {predicted_species}")
+            
+            # Show description for predicted species
+            st.write(f"Description: {species_descriptions[predicted_species]}")
