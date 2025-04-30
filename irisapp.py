@@ -1,13 +1,12 @@
 import pickle
 import numpy as np
-import os
 import streamlit as st
 from sklearn.preprocessing import StandardScaler
 
 # Load the Decision Tree model
 @st.cache_resource
 def load_dt_model():
-    model_path = 'decision_tree_model_iris6.pkl'  # Ensure the path is correct
+    model_path = 'decision_tree_model_iris6.pkl'  # Ensure the correct path
     
     # Check if the model file exists
     if not os.path.exists(model_path):
@@ -30,26 +29,26 @@ species_descriptions = {
 # Streamlit inputs for flower features
 st.title("Iris Flower Prediction App")
 
-# Input fields for the user
-sepal_length = st.number_input('Sepal Length (cm)', min_value=0.0, step=0.1)
-sepal_width = st.number_input('Sepal Width (cm)', min_value=0.0, step=0.1)
-petal_length = st.number_input('Petal Length (cm)', min_value=0.0, step=0.1)
-petal_width = st.number_input('Petal Width (cm)', min_value=0.0, step=0.1)
+# Input fields for the user (no min/max for now)
+sepal_length = st.number_input('Sepal Length (cm)', step=0.1)
+sepal_width = st.number_input('Sepal Width (cm)', step=0.1)
+petal_length = st.number_input('Petal Length (cm)', step=0.1)
+petal_width = st.number_input('Petal Width (cm)', step=0.1)
 
 # Predict with Decision Tree when the button is clicked
 if st.button('Predict with Decision Tree'):
-    # Check if all inputs are non-zero
+    # Ensure that inputs are non-zero
     if sepal_length == 0.0 or sepal_width == 0.0 or petal_length == 0.0 or petal_width == 0.0:
         st.error("Please provide non-zero values for all inputs!")
     else:
-        # Prepare the input data for prediction
+        # Prepare the input data
         input_data = np.array([[sepal_length, sepal_width, petal_length, petal_width]])
 
         # Scale the input data to match the model's training process
         scaler = StandardScaler()  # We use StandardScaler for feature scaling
         input_data_scaled = scaler.fit_transform(input_data)
 
-        # Load the model and make a prediction
+        # Load the model and make predictions
         model = load_dt_model()
         
         if model is not None:
