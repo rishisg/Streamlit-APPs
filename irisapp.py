@@ -6,7 +6,7 @@ import streamlit as st
 # Load the Decision Tree model
 @st.cache_resource
 def load_dt_model():
-    model_path = 'decision_tree_model_iris5.pkl'
+    model_path = 'decision_tree_model_iris5.pkl'  # Ensure the path is correct
     
     # Check if the model file exists
     if not os.path.exists(model_path):
@@ -30,10 +30,10 @@ species_descriptions = {
 st.title("Iris Flower Prediction App")
 
 # Input fields for the user
-sepal_length = st.number_input('Sepal Length (cm)', min_value=0.0, step=0.1)
-sepal_width = st.number_input('Sepal Width (cm)', min_value=0.0, step=0.1)
-petal_length = st.number_input('Petal Length (cm)', min_value=0.0, step=0.1)
-petal_width = st.number_input('Petal Width (cm)', min_value=0.0, step=0.1)
+sepal_length = st.number_input('Sepal Length (cm)', min_value=4.0, max_value=8.0, step=0.1)
+sepal_width = st.number_input('Sepal Width (cm)', min_value=2.0, max_value=5.0, step=0.1)
+petal_length = st.number_input('Petal Length (cm)', min_value=1.0, max_value=7.0, step=0.1)
+petal_width = st.number_input('Petal Width (cm)', min_value=0.1, max_value=2.5, step=0.1)
 
 # Predict with Decision Tree when the button is clicked
 if st.button('Predict with Decision Tree'):
