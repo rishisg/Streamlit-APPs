@@ -8,7 +8,7 @@ from sklearn.preprocessing import StandardScaler
 @st.cache_resource
 def load_dt_model():
     model_path = 'decision_tree_model_iris6.pkl'  # Ensure the correct model path
-
+    
     # Check if the model file exists in the correct directory
     if not os.path.exists(model_path):
         st.error(f"Model file '{model_path}' not found. Please upload the model file.")
@@ -57,3 +57,6 @@ if st.button('Predict with Decision Tree'):
             predicted_species = species_map[prediction[0]]
             st.write(f"The predicted Iris flower species is: {predicted_species}")
             st.write(f"Description: {species_descriptions[predicted_species]}")
+            
+            # Add some explanation on the predictions
+            st.write(f"Based on the input features (Sepal Length: {sepal_length}, Sepal Width: {sepal_width}, Petal Length: {petal_length}, Petal Width: {petal_width}), the model predicted the species as {predicted_species}.")
